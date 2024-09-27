@@ -6,6 +6,9 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 import os
 from .models import db
+from dotenv import load_dotenv
+
+load_dotenv()
 
 bcrypt = Bcrypt()
 jwt = JWTManager()
