@@ -1,1 +1,1 @@
-web: waitress-serve --port=%PORT% app:create_app()
+web: waitress-serve --port=%PORT% python -c "from app import create_app; app = create_app()"
