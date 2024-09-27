@@ -84,5 +84,6 @@ def login():
 @auth.route("/logout", methods=["POST"])
 @jwt_required()
 def logout():
-    unset_jwt_cookies()
+    response = jsonify({"msg": "Logged out successfully"})
+    unset_jwt_cookies(response)
     return jsonify({"msg": "Logged out successfully"}), 200
