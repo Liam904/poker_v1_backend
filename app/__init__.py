@@ -6,28 +6,28 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 import os
 
-# Initialize extensions
 bcrypt = Bcrypt()
 jwt = JWTManager()
 migrate = Migrate()
-cors = CORS()
 db = SQLAlchemy()
 
 
 def create_app():
     app = Flask(__name__)
 
-    # Load configuration from environment variables
+    # Load configurations from environment variables
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
+        "DATABASE_URL", "sqlite:///game.db"
+    )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "default_secret")
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 
     # Initialize extensions with the app
     db.init_app(app)
     bcrypt.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
-    cors.init_app(app, resources={r"/*": {"origins": "*"}})  # Adjust as needed
+    CORS(app)  # You can specify origins if needed
 
     # Register blueprints
     from .views import views
